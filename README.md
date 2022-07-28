@@ -12,7 +12,6 @@ Setup your Postman Environment variables:
 
 Setup your Postman Collection variables:
 * webUrl -> https://<host>.sharepoint.com/sites/<your_site>
-
 ![image](https://user-images.githubusercontent.com/102023453/181501060-4ffd7341-a856-469c-ae7d-961980ac07c2.png)
 
 # Use Graph API to integrate with SharePoint to poll for changes within a document library
