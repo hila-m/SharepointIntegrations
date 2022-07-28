@@ -24,7 +24,8 @@ https://developer.microsoft.com/en-us/graph/graph-explorer
  
 ## Use delta operation to captur changes
  (https://docs.microsoft.com/en-us/graph/api/driveitem-delta?view=graph-rest-1.0&tabs=http)
-  QuerySiteId -> QueryDriveId -> 
+  QuerySiteId -> get your site id based on the webUrl defined in the collection variable.
+  QueryDriveId -> get the docuemnts root directory id
   QueryFiles-delta -> get all changes within lastest token, initial request generates a token that later on is stored as a collection var, you can clear the token var to initiate a "clean" start.
   
 ## Use query parameter to filter changes based on lastModifiedDateTime
