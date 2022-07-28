@@ -21,7 +21,7 @@ Setup your Postman Collection variables (Use Graph collection-Graph.postman_coll
 You can check out graph explorer for testing puposes (usefull to make sure your used has appropriate privileges).
 https://developer.microsoft.com/en-us/graph/graph-explorer
   
-# API activations can be controlled to support paging and etc.
+## API activations can be controlled to support paging and etc.
 https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-rest-1.0&tabs=http#optional-query-parameters
   
 ## Use delta operation to captur changes
@@ -30,16 +30,16 @@ https://docs.microsoft.com/en-us/graph/api/driveitem-delta?view=graph-rest-1.0&t
 ## Use query parameter to filter changes based on lastModifiedDateTime
 You can choose to query fields based on list item columns
 
-## Get Push notifications for SharePoint changes by using Webhooks-
+# Get Push notifications for SharePoint changes by using Webhooks-
   ![image](https://user-images.githubusercontent.com/102023453/181506793-cd3a5191-186f-495a-a00c-9d8223bc94c2.png)
 
 Webhooks will allow to create a subscription to a SharePoint object and get notification for changed events.
 Webhook handler has to be implemented in an A-Sync mode and reply back within 5 seconds, in case the activation of the notification service failes there will be automatic retry for 5 times (https://docs.microsoft.com/en-us/sharepoint/dev/apis/webhooks/webhooks-reference-implementation![image](https://user-images.githubusercontent.com/102023453/181505192-36a4a3ce-4006-495b-a96b-45184ece2233.png)
 
-# Setup webhook
+## Setup webhook
 Get started with SharePoint webhooks | Microsoft Docs![image](https://user-images.githubusercontent.com/102023453/181505318-b70405fc-bf1f-45b4-ab71-3fe05976f612.png)
   
-# Using Azure Functions with SharePoint webhooks | Microsoft Docs
+## Using Azure Functions with SharePoint webhooks | Microsoft Docs
 https://github.com/pnp/sp-dev-samples/blob/master/Samples/WebHooks.List.AzureAD/azure%20functions%20guide.md![image](https://user-images.githubusercontent.com/102023453/181505277-84c9c521-ef17-4d86-817d-44321c37becc.png)
 
 
