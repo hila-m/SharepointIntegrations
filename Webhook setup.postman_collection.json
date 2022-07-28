@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "731a457e-cdd8-4a85-b479-dbcf9459677a",
+		"name": "Webhook setup",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20892339"
+	},
+	"item": [
+		{
+			"name": "GetDocumentsListid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    var jsonObject = xml2Json(responseBody);  \r",
+							"    jsonObject = jsonObject.entry.content\r",
+							"    pm.collectionVariables.set(\"list_id\", jsonObject['m:properties']['d:Id']['_']);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{webHost}}.sharepoint.com/sites/{{spSite}}/_api/web/lists/getbytitle('myDocs')?$select=Id&$format=json",
+					"protocol": "https",
+					"host": [
+						"{{webHost}}",
+						"sharepoint",
+						"com"
+					],
+					"path": [
+						"sites",
+						"{{spSite}}",
+						"_api",
+						"web",
+						"lists",
+						"getbytitle('myDocs')"
+					],
+					"query": [
+						{
+							"key": "$select",
+							"value": "Id"
+						},
+						{
+							"key": "$format",
+							"value": "json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateWebhook",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"resource\": \"https://{{webHost}}.sharepoint.com/sites/{{spSite}}/_api/web/lists('{{list_id}}'')\",\r\n   \"notificationUrl\": \"{{notificationUrl}}\",\r\n   \"expirationDateTime\": \"2022-10-01T00:00:00+00:00\",\r\n   \"clientState\": \"A0A354EC-97D4-4D83-9DDB-144077ADB449\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{webHost}}.sharepoint.com/sites/{{spSite}}/_api/web/lists('{{list_id}}')/subscriptions",
+					"protocol": "https",
+					"host": [
+						"{{webHost}}",
+						"sharepoint",
+						"com"
+					],
+					"path": [
+						"sites",
+						"{{spSite}}",
+						"_api",
+						"web",
+						"lists('{{list_id}}')",
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetListID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{webHost}}.sharepoint.com/sites/{{spSite}}/_api/web/lists('{{list_id}}')/subscriptions",
+					"protocol": "https",
+					"host": [
+						"{{webHost}}",
+						"sharepoint",
+						"com"
+					],
+					"path": [
+						"sites",
+						"{{spSite}}",
+						"_api",
+						"web",
+						"lists('{{list_id}}')",
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetChanges",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ 'query' : { '__metadata': { 'type': 'SP.ChangeQuery' },\r\n    'Add': 'True', 'Item': 'True' }}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{webHost}}.sharepoint.com/sites/{{spSite}}/_api/web/lists(guid'{{list_id}}')/getchanges",
+					"protocol": "https",
+					"host": [
+						"{{webHost}}",
+						"sharepoint",
+						"com"
+					],
+					"path": [
+						"sites",
+						"{{spSite}}",
+						"_api",
+						"web",
+						"lists(guid'{{list_id}}')",
+						"getchanges"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "authUrl",
+				"value": "https://login.microsoftonline.com/common/oauth2/authorize?resource=https://{{webHost}}.sharepoint.com",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "Bearer",
+				"type": "string"
+			},
+			{
+				"key": "accessToken",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://login.microsoftonline.com/common/oauth2/token",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "https://www.getpostman.com/oauth2/callback",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "access",
+				"type": "string"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "https://graph.microsoft.com/.default",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{client_secret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{client_id}}",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "webHost",
+			"value": "<your sp host>",
+			"type": "string"
+		},
+		{
+			"key": "spSite",
+			"value": "<you document library>",
+			"type": "string"
+		},
+		{
+			"key": "notificationUrl",
+			"value": "<your webhook API>",
+			"type": "string"
+		},
+		{
+			"key": "list_id",
+			"value": ""
+		}
+	]
+}

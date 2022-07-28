@@ -7,99 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "QueryFiles-delta",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"try {\r",
-							"\r",
-							"    var response = JSON.stringify(pm.response.json());\r",
-							"    pm.collectionVariables.set(\"delta_token\", response.substring(response.indexOf('?token=') + 7, response.indexOf('\"value\":')-2));\r",
-							"\r",
-							"    if (responseBody.indexOf(\"InvalidAuthenticationToken\") !== -1) {\r",
-							"        console.log(\"You need to run *Get App-Only Access Token* request first.\");\r",
-							"    }\r",
-							"    else {\r",
-							"        if (pm.environment.get(\"UserId\") === \"\") {\r",
-							"            console.log(\"You need to run *Application | Get Users* request first or set a UserId environment variable.\");\r",
-							"        }\r",
-							"        else {\r",
-							"            if (pm.response.status === \"Forbidden\") {\r",
-							"                console.log(\"You need to add user delegated permissions in your application to atleast *Mail.Read.All* in portal.azure.com and then consent as user or Grant admin consent in portal. And re-run *Application | Get App-Only Access Token* request to update access token. \");\r",
-							"            }\r",
-							"            else {\r",
-							"                if (responseBody.indexOf(\"ResourceNotFound\") !== -1) {\r",
-							"                    console.log(\"You need to pick a UserId who has a license for a mailbox.\");\r",
-							"                }\r",
-							"                else {\r",
-							"                    var json = JSON.parse(responseBody);\r",
-							"                    postman.setEnvironmentVariable(\"MessageId\", json.value[0].id);\r",
-							"                }\r",
-							"            }\r",
-							"        }\r",
-							"    }\r",
-							"}\r",
-							"catch (e) {\r",
-							"    console.log(e);\r",
-							"}\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"var token = pm.collectionVariables.get(\"delta_token\");\r",
-							"if (token != '' && token != null)\r",
-							"{\r",
-							"    pm.request.url.query.add({key: 'token', value: token});\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Prefer",
-						"value": "apiversion=2.1",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://graph.microsoft.com/v1.0/sites/{{sp_site_id}}/drives/{{root_lib_id}}/root/delta",
-					"protocol": "https",
-					"host": [
-						"graph",
-						"microsoft",
-						"com"
-					],
-					"path": [
-						"v1.0",
-						"sites",
-						"{{sp_site_id}}",
-						"drives",
-						"{{root_lib_id}}",
-						"root",
-						"delta"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "QuerySiteId",
 			"event": [
 				{
@@ -358,6 +265,83 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "QueryFiles-delta",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"try {\r",
+							"\r",
+							"    var response = JSON.stringify(pm.response.json()['@odata.deltaLink']);\r",
+							"    console.log('response = ' + response);\r",
+							"    console.log('token' + response.substring(response.indexOf('?token=') + 7, response.length-1));\r",
+							"    pm.collectionVariables.set(\"delta_token\", response.substring(response.indexOf('?token=') + 7, response.length-1));\r",
+							"\r",
+							"    if (responseBody.indexOf(\"InvalidAuthenticationToken\") !== -1) {\r",
+							"        console.log(\"You need to run *Authorize to get Access Token* request first.\");\r",
+							"    }\r",
+							"    \r",
+							"}\r",
+							"catch (e) {\r",
+							"    console.log(e);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var token = pm.collectionVariables.get(\"delta_token\");\r",
+							"if (token != '' && token != null)\r",
+							"{\r",
+							"    pm.request.url.query.add({key: 'token', value: token});\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Prefer",
+						"value": "apiversion=2.1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://graph.microsoft.com/v1.0/sites/{{sp_site_id}}/drives/{{root_lib_id}}/root/delta",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"v1.0",
+						"sites",
+						"{{sp_site_id}}",
+						"drives",
+						"{{root_lib_id}}",
+						"root",
+						"delta"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -455,7 +439,7 @@
 		},
 		{
 			"key": "webUrl",
-			"value": "https://<host>.sharepoint.com/sites/<your_site>"
+			"value": "https://<host>.sharepoint.com/sites/<your site>"
 		}
 	]
 }
