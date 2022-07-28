@@ -48,7 +48,7 @@ Webhook handler has to be implemented in an A-Sync mode and reply back within 5 
 ![image](https://user-images.githubusercontent.com/102023453/181506793-cd3a5191-186f-495a-a00c-9d8223bc94c2.png)
 
 ## Setup webhook
-Get started with SharePoint webhooks [| Microsoft Docs![image](https://user-images.githubusercontent.com/102023453/181505318-b70405fc-bf1f-45b4-ab71-3fe05976f612.png)](https://docs.microsoft.com/en-us/sharepoint/dev/apis/webhooks/get-started-webhooks)
+Get started with SharePoint webhooks [| Microsoft Docs![image](https://user-images.githubusercontent.com/102023453/181505318-b70405fc-bf1f-45b4-ab71-3fe05976f612.png)]
   
 ## Using Azure Functions with SharePoint webhooks | Microsoft Docs
 https://github.com/pnp/sp-dev-samples/blob/master/Samples/WebHooks.List.AzureAD/azure%20functions%20guide.md![image](https://user-images.githubusercontent.com/102023453/181505277-84c9c521-ef17-4d86-817d-44321c37becc.png)
