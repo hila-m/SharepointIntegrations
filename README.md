@@ -16,8 +16,8 @@ Setup your Postman Collection variables (Use Graph collection-Graph.postman_coll
 * webUrl -> https://<host>.sharepoint.com/sites/<your_site>
 ![image](https://user-images.githubusercontent.com/102023453/181501060-4ffd7341-a856-469c-ae7d-961980ac07c2.png)
 
-## Pull SharePoint changes-
-# Use Graph API to integrate with SharePoint to poll for changes within a document library
+# Pull SharePoint changes-
+## Use Graph API to integrate with SharePoint to poll for changes within a document library
 You can check out graph explorer for testing puposes (usefull to make sure your used has appropriate privileges).
 https://developer.microsoft.com/en-us/graph/graph-explorer
   
