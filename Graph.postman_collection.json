@@ -1,0 +1,457 @@
+{
+	"info": {
+		"_postman_id": "f55c6258-5ef2-4ce0-b28f-046d19c0d027",
+		"name": "Graph",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20892339"
+	},
+	"item": [
+		{
+			"name": "QueryFiles-delta",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"try {\r",
+							"\r",
+							"    var response = JSON.stringify(pm.response.json());\r",
+							"    pm.collectionVariables.set(\"delta_token\", response.substring(response.indexOf('?token=') + 7, response.indexOf('\"value\":')-2));\r",
+							"\r",
+							"    if (responseBody.indexOf(\"InvalidAuthenticationToken\") !== -1) {\r",
+							"        console.log(\"You need to run *Get App-Only Access Token* request first.\");\r",
+							"    }\r",
+							"    else {\r",
+							"        if (pm.environment.get(\"UserId\") === \"\") {\r",
+							"            console.log(\"You need to run *Application | Get Users* request first or set a UserId environment variable.\");\r",
+							"        }\r",
+							"        else {\r",
+							"            if (pm.response.status === \"Forbidden\") {\r",
+							"                console.log(\"You need to add user delegated permissions in your application to atleast *Mail.Read.All* in portal.azure.com and then consent as user or Grant admin consent in portal. And re-run *Application | Get App-Only Access Token* request to update access token. \");\r",
+							"            }\r",
+							"            else {\r",
+							"                if (responseBody.indexOf(\"ResourceNotFound\") !== -1) {\r",
+							"                    console.log(\"You need to pick a UserId who has a license for a mailbox.\");\r",
+							"                }\r",
+							"                else {\r",
+							"                    var json = JSON.parse(responseBody);\r",
+							"                    postman.setEnvironmentVariable(\"MessageId\", json.value[0].id);\r",
+							"                }\r",
+							"            }\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"catch (e) {\r",
+							"    console.log(e);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var token = pm.collectionVariables.get(\"delta_token\");\r",
+							"if (token != '' && token != null)\r",
+							"{\r",
+							"    pm.request.url.query.add({key: 'token', value: token});\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Prefer",
+						"value": "apiversion=2.1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://graph.microsoft.com/v1.0/sites/{{sp_site_id}}/drives/{{root_lib_id}}/root/delta",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"v1.0",
+						"sites",
+						"{{sp_site_id}}",
+						"drives",
+						"{{root_lib_id}}",
+						"root",
+						"delta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QuerySiteId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"try {\r",
+							"    pm.collectionVariables.set(\"sp_site_id\", pm.response.json().value[0].id);\r",
+							"        \r",
+							"    if (responseBody.indexOf(\"InvalidAuthenticationToken\") !== -1)\r",
+							"    {\r",
+							"        console.log(\"You need to run *Get App-Only Access Token* request first.\");\r",
+							"    }\r",
+							"    else\r",
+							"    {\r",
+							"        if (pm.environment.get(\"UserId\") === \"\")\r",
+							"        {\r",
+							"            console.log(\"You need to run *Application | Get Users* request first or set a UserId environment variable.\");\r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            if (pm.response.status === \"Forbidden\")\r",
+							"            {\r",
+							"                console.log(\"You need to add user delegated permissions in your application to atleast *Mail.Read.All* in portal.azure.com and then consent as user or Grant admin consent in portal. And re-run *Application | Get App-Only Access Token* request to update access token. \");\r",
+							"            }\r",
+							"            else\r",
+							"            {\r",
+							"                if (responseBody.indexOf(\"ResourceNotFound\") !== -1)\r",
+							"                {\r",
+							"                    console.log(\"You need to pick a UserId who has a license for a mailbox.\");\r",
+							"                }\r",
+							"                else\r",
+							"                {\r",
+							"                    var json = JSON.parse(responseBody);\r",
+							"                    postman.setEnvironmentVariable(\"MessageId\", json.value[0].id);\r",
+							"                }\r",
+							"            }\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"catch (e) {\r",
+							"    console.log(e);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Prefer",
+						"value": "apiversion=2.1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://graph.microsoft.com/v1.0/sites/?$filter=webUrl eq 'https://xkw6v.sharepoint.com/sites/mySite'",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"v1.0",
+						"sites",
+						""
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "webUrl eq 'https://xkw6v.sharepoint.com/sites/mySite'"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QueryDriveID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"try {\r",
+							"    pm.collectionVariables.set(\"root_lib_id\", pm.response.json().value[0].id);\r",
+							"\r",
+							"    if (responseBody.indexOf(\"InvalidAuthenticationToken\") !== -1)\r",
+							"    {\r",
+							"        console.log(\"You need to run *Get App-Only Access Token* request first.\");\r",
+							"    }\r",
+							"    else\r",
+							"    {\r",
+							"        if (pm.environment.get(\"UserId\") === \"\")\r",
+							"        {\r",
+							"            console.log(\"You need to run *Application | Get Users* request first or set a UserId environment variable.\");\r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            if (pm.response.status === \"Forbidden\")\r",
+							"            {\r",
+							"                console.log(\"You need to add user delegated permissions in your application to atleast *Mail.Read.All* in portal.azure.com and then consent as user or Grant admin consent in portal. And re-run *Application | Get App-Only Access Token* request to update access token. \");\r",
+							"            }\r",
+							"            else\r",
+							"            {\r",
+							"                if (responseBody.indexOf(\"ResourceNotFound\") !== -1)\r",
+							"                {\r",
+							"                    console.log(\"You need to pick a UserId who has a license for a mailbox.\");\r",
+							"                }\r",
+							"                else\r",
+							"                {\r",
+							"                    var json = JSON.parse(responseBody);\r",
+							"                    postman.setEnvironmentVariable(\"MessageId\", json.value[0].id);\r",
+							"                }\r",
+							"            }\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"catch (e) {\r",
+							"    console.log(e);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Prefer",
+						"value": "apiversion=2.1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://graph.microsoft.com/v1.0/sites/{{sp_site_id}}/drives",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"v1.0",
+						"sites",
+						"{{sp_site_id}}",
+						"drives"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QueryFiles-delta lastModifiedDateTime Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"try {\r",
+							"    if (responseBody.indexOf(\"InvalidAuthenticationToken\") !== -1)\r",
+							"    {\r",
+							"        console.log(\"You need to run *Get App-Only Access Token* request first.\");\r",
+							"    }\r",
+							"    else\r",
+							"    {\r",
+							"        if (pm.environment.get(\"UserId\") === \"\")\r",
+							"        {\r",
+							"            console.log(\"You need to run *Application | Get Users* request first or set a UserId environment variable.\");\r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"            if (pm.response.status === \"Forbidden\")\r",
+							"            {\r",
+							"                console.log(\"You need to add user delegated permissions in your application to atleast *Mail.Read.All* in portal.azure.com and then consent as user or Grant admin consent in portal. And re-run *Application | Get App-Only Access Token* request to update access token. \");\r",
+							"            }\r",
+							"            else\r",
+							"            {\r",
+							"                if (responseBody.indexOf(\"ResourceNotFound\") !== -1)\r",
+							"                {\r",
+							"                    console.log(\"You need to pick a UserId who has a license for a mailbox.\");\r",
+							"                }\r",
+							"                else\r",
+							"                {\r",
+							"                    var json = JSON.parse(responseBody);\r",
+							"                    postman.setEnvironmentVariable(\"MessageId\", json.value[0].id);\r",
+							"                }\r",
+							"            }\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"catch (e) {\r",
+							"    console.log(e);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Prefer",
+						"value": "apiversion=2.1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://graph.microsoft.com/v1.0/sites/{{sp_site_id}}/drives/{{root_lib_id}}/root/children?$filter=lastModifiedDateTime gt 2022-07-27T18:54:58Z",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"v1.0",
+						"sites",
+						"{{sp_site_id}}",
+						"drives",
+						"{{root_lib_id}}",
+						"root",
+						"children"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "lastModifiedDateTime gt 2022-07-27T18:54:58Z"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "tokenName",
+				"value": "access",
+				"type": "string"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "https://graph.microsoft.com/.default",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "client_credentials",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{client_secret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{client_id}}",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://login.microsoftonline.com/{{tenant}}/oauth2/v2.0/token",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "Bearer",
+				"type": "string"
+			},
+			{
+				"key": "accessToken",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "root_lib_id",
+			"value": ""
+		},
+		{
+			"key": "sp_site_id",
+			"value": ""
+		},
+		{
+			"key": "delta_token",
+			"value": ""
+		}
+	]
+}
