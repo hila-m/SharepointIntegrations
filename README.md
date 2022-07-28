@@ -28,7 +28,11 @@ https://docs.microsoft.com/en-us/graph/api/driveitem-list-children?view=graph-re
 https://docs.microsoft.com/en-us/graph/api/driveitem-delta?view=graph-rest-1.0&tabs=http
 
 ## Use query parameter to filter changes based on lastModifiedDateTime
-You can choose to query fields based on list item columns
+Execute the collection operations -> 
+  QuerySiteId->QueryDriveId->QueryFiles-lastModifiedDateTime based on webUrl collection variable, operation will query sharepoint object ids and query root document library for chnages based on last modified time
+  
+* You can choose to query fields based on list item columns
+* You can also query document library based on path.
 
 # Get Push notifications for SharePoint changes by using Webhooks-
   ![image](https://user-images.githubusercontent.com/102023453/181506793-cd3a5191-186f-495a-a00c-9d8223bc94c2.png)
