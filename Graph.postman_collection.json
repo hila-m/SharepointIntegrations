@@ -164,7 +164,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://graph.microsoft.com/v1.0/sites/?$filter=webUrl eq 'https://xkw6v.sharepoint.com/sites/mySite'",
+					"raw": "https://graph.microsoft.com/v1.0/sites/?$filter=webUrl eq '{{webUrl}}'",
 					"protocol": "https",
 					"host": [
 						"graph",
@@ -179,7 +179,7 @@
 					"query": [
 						{
 							"key": "$filter",
-							"value": "webUrl eq 'https://xkw6v.sharepoint.com/sites/mySite'"
+							"value": "webUrl eq '{{webUrl}}'"
 						}
 					]
 				}
@@ -270,7 +270,7 @@
 			"response": []
 		},
 		{
-			"name": "QueryFiles-delta lastModifiedDateTime Copy",
+			"name": "QueryFiles-lastModifiedDateTime",
 			"event": [
 				{
 					"listen": "test",
@@ -452,6 +452,10 @@
 		{
 			"key": "delta_token",
 			"value": ""
+		},
+		{
+			"key": "webUrl",
+			"value": "https://<host>.sharepoint.com/sites/<your_site>"
 		}
 	]
 }
