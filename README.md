@@ -1,6 +1,6 @@
 # Sharepoint Integrations
-As initial step you will have to create an application registred in your SharePoint online tenant.
-You have several option to integrate to SharePoint, based on Pull (Graph/Sharepoint API) or Push (SharePoint Webhook) activation models.
+As initial step you will have to create an application registred in Azure Active Directory in your SharePoint online tenant.
+You have several options to integrate to SharePoint, based on Pull (Graph/Sharepoint API) or Push (SharePoint Webhook) activation models.
 
 ## Register your application and setup Graph/Sharepoint API permissions
 [Register your app with the Azure AD v2.0 endpoint - Microsoft Graph | Microsoft Doc
