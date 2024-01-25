@@ -51,13 +51,14 @@ Webhook handler has to be implemented in an A-Sync mode and reply back within 5 
 https://learn.microsoft.com/en-us/sharepoint/dev/apis/webhooks/get-started-webhooks
  
 ## Using Azure Functions with SharePoint webhooks | Microsoft Docs
-https://github.com/pnp/sp-dev-samples/blob/master/Samples/WebHooks.List.AzureAD/azure%20functions%20guide.md![image](https://user-images.githubusercontent.com/102023453/181505277-84c9c521-ef17-4d86-817d-44321c37becc.png)
+https://github.com/pnp/sp-dev-samples/blob/master/Samples/WebHooks.List.AzureAD/azure%20functions%20guide.md
+![image](https://user-images.githubusercontent.com/102023453/181505277-84c9c521-ef17-4d86-817d-44321c37becc.png)
 
 Execute the collection operations -> 
-  GetDocumentsListid -> get your list id based on parameter set (lists/getbytitle('<your documents folder>')?$select=Id)
-  CreateWebhook -> subscribe to capture changes on the list defined in pre command
-  GetListID -> verifies that the subscirption defined exists
-  GetChanges -> get the actual changes done
+  * GetDocumentsListid -> get your list id based on parameter set (lists/getbytitle('<your documents folder>')?$select=Id)
+  * CreateWebhook -> subscribe to capture changes on the list defined in pre command
+  * GetListID -> verifies that the subscirption defined exists
+  * GetChanges -> get the actual changes done
 
 
 
